@@ -82,6 +82,9 @@ OrderedAnalysis<LiveRange> analyze(const caffe::Net<float>& net) {
     findOrInsert(&analysis, input->data().get()).defined = -kAlwaysLive;
     findOrInsert(&analysis, input->data().get()).used = kAlwaysLive;
   }
+  for (const auto* output : net.output_blobs()) {
+    findOrInsert(&analysis, output->data().get()).used = kNotUsed;
+  }
   return analysis;
 }
 
