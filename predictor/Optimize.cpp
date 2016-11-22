@@ -186,15 +186,18 @@ void applyAssignments(caffe::Net<float>* net, const Assignments& assignments) {
     blob = reusedBlobs.at(blob->data().get()).get();
   }
   for (auto& blob : const_cast<BV&>(net->output_blobs())) {
+    reusedBlobs.at(blob->data().get())->ReshapeLike(*blob);
     blob = reusedBlobs.at(blob->data().get()).get();
   }
   for (auto& vec : net->top_vecs()) {
     for (auto& blob : const_cast<BV&>(vec)) {
+      reusedBlobs.at(blob->data().get())->ReshapeLike(*blob);
       blob = reusedBlobs.at(blob->data().get()).get();
     }
   }
   for (auto& vec : net->bottom_vecs()) {
     for (auto& blob : const_cast<BV&>(vec)) {
+      reusedBlobs.at(blob->data().get())->ReshapeLike(*blob);
       blob = reusedBlobs.at(blob->data().get()).get();
     }
   }
