@@ -64,7 +64,7 @@ class Predictor {
   std::shared_ptr<caffe::Net<float>> weights_;
   const Optimization optimization_;
 
-  folly::ThreadLocalPtr<caffe::Net<float>> predictors_;
+  std::unique_ptr<caffe::Net<float>> predictors_;
 };
 }
 }
