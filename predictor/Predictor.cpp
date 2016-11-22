@@ -121,8 +121,8 @@ void Predictor::runForward(
     auto& input_blob = input_blobs[i];
     CHECK(input_blob);
     predictor->input_blobs()[i]->ReshapeLike(*input_blob);
-    // mutable_cpu_data b/c the interface demands it, but logically const.
-    predictor->input_blobs()[i]->set_cpu_data(input_blob->mutable_cpu_data());
+    std::copy(input_blob->cpu_data(), input_blob->cpu_data() + input_blob->count(),
+              predictor->input_blobs()[i]->mutable_cpu_data());
   }
   predictor->Reshape();
   predictor->ForwardPrefilled();
