@@ -17,8 +17,6 @@
 #include <google/protobuf/io/zero_copy_stream_impl.h>
 #include <google/protobuf/io/coded_stream.h>
 
-#include <mkl_service.h>
-
 #include "Optimize.h"
 
 namespace caffe { namespace fb {
@@ -41,8 +39,11 @@ void disable_blas_threading() {
   // and for users of this library (people who explicitly instantiate
   // Predictor), set mkl_num_threads/omp_num_threads to 1.
   // See t8682905 for details.
-  LOG(INFO) << "Setting BLAS (MKL, OMP) threads to 1";
-  mkl_set_num_threads(1);
+
+  // Should already linked to the gomp version of MKL 2017
+  // Should export OMP_NUM_THREADS=1
+
+//  LOG(INFO) << "Setting BLAS (MKL, OMP) threads to 1";
 }
 }
 
